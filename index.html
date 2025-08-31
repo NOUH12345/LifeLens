@@ -1,35 +1,71 @@
-impor
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		<script type="text/javascript" src="app.js"></script>
-		<link rel="stylesheet" href="app.css" type="text/css" />
-t express from 'express';
-import cors from 'cors';
-import OpenAI from 'openai';
-import dotenv from 'dotenv';
-dotenv.config();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LifeLens — Ask About Life</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 { margin-bottom: 20px; text-align: center; }
+    #questionInput {
+      width: 100%; max-width: 600px; padding: 10px; border-radius: 5px; border: none; margin-bottom: 10px; font-size: 16px;
+    }
+    #askButton {
+      padding: 10px 20px; font-size: 16px; border: none; border-radius: 5px; background-color: #ff6f61; color: #fff; cursor: pointer;
+    }
+    #askButton:hover { background-color: #ff3b2f; }
+    #answer {
+      margin-top: 20px; max-width: 600px; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; min-height: 50px; white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>LifeLens — Ask About Life</h1>
+  <input type="text" id="questionInput" placeholder="Ask a question about life..." />
+  <button id="askButton">Ask</button>
+  <div id="answer">Your answer will appear here...</div>
 
-const app = express();
-app.use(cors());
-app.use(express.json());
+  <script>
+    const askButton = document.getElementById('askButton');
+    const questionInput = document.getElementById('questionInput');
+    const answerDiv = document.getElementById('answer');
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    askButton.addEventListener('click', async () => {
+      const question = questionInput.value.trim();
+      if (!question) return;
 
-app.post('/ask', async (req, res) => {
-  const { question } = req.body;
-  if (!question) return res.status(400).json({ error: 'No question provided' });
+      answerDiv.textContent = "Thinking... 🤔";
 
-  try {
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4',
-      messages: [{ role: 'user', content: question }],
-      max_tokens: 200,
+      try {
+        const response = await fetch('https://YOUR-RENDER-BACKEND.onrender.com/ask', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question })
+        });
+
+        const data = await response.json();
+        answerDiv.textContent = data.answer || "No answer received.";
+
+      } catch (error) {
+        answerDiv.textContent = "Oops! Something went wrong. Try again.";
+        console.error(error);
+      }
     });
-    res.json({ answer: response.choices[0].message.content });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Something went wrong' });
-  }
-});
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    questionInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') askButton.click();
+    });
+  </script>
+</body>
+</html>
