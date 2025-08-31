@@ -13,6 +13,7 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 app.post('/ask', async (req, res) => {
   const { question } = req.body;
+
   if (!question) return res.status(400).json({ error: 'No question provided' });
 
   try {
@@ -21,6 +22,7 @@ app.post('/ask', async (req, res) => {
       messages: [{ role: 'user', content: question }],
       max_tokens: 200,
     });
+
     res.json({ answer: response.choices[0].message.content });
   } catch (err) {
     console.error(err);
