@@ -1,0 +1,142 @@
+LifeLens — AI-Powered Life Advisor
+
+
+
+
+LifeLens is a web application that lets users ask questions about life and receive insightful AI-generated answers in real time. Powered by OpenAI’s GPT-4, LifeLens provides thoughtful perspectives, advice, and guidance.
+
+🌟 Features
+
+Ask any question about life and get instant AI answers.
+
+Supports multiple perspectives and reflective advice.
+
+Simple, responsive, and visually appealing frontend.
+
+Secure backend using environment variables for OpenAI API key.
+
+CORS enabled for smooth frontend-backend communication.
+
+Easy deployment on platforms like Render or Replit.
+
+📸 Screenshots
+
+
+Enter a question and receive AI guidance instantly.
+
+
+Example of AI-generated life advice.
+
+Replace these with your actual screenshots after deploying.
+
+🚀 Getting Started
+1. Clone the Repository
+git clone https://github.com/YOUR-USERNAME/lifelens.git
+cd lifelens
+
+2. Install Dependencies
+
+Make sure you have Node.js installed. Then run:
+
+npm install
+
+3. Set Up Environment Variables
+
+Create a .env file in the project root:
+
+touch .env
+
+
+Add your OpenAI API key:
+
+OPENAI_API_KEY=sk-your-openai-api-key-here
+
+
+Important: Keep this key private. Do not commit .env to GitHub.
+
+4. Run Backend Locally
+node server.js
+
+
+Backend runs on http://localhost:3000 by default.
+
+/ask endpoint accepts POST requests:
+
+{ "question": "Is life hard?" }
+
+5. Frontend Setup
+
+Open index.html in a browser.
+
+Update JS to point to your backend URL:
+
+fetch('https://YOUR-RENDER-BACKEND.onrender.com/ask', ...)
+
+
+Type a question and click Ask to receive AI responses.
+
+6. Deploy to Render
+
+Push your repo to GitHub.
+
+On Render: New → Web Service → connect your repo.
+
+Set:
+
+Environment: Node
+
+Build Command: npm install
+
+Start Command: npm start
+
+Add environment variable:
+
+Name: OPENAI_API_KEY
+
+Contents: your OpenAI API key
+
+Deploy → copy the service URL → update frontend JS.
+
+📂 Folder Structure
+lifelens/
+├─ server.js          # Node.js backend
+├─ index.html         # Frontend HTML + JS
+├─ package.json       # Node.js dependencies
+├─ .env               # Environment variables (ignored in git)
+├─ .gitignore
+
+⚙️ Dependencies
+
+Node.js
+
+Express
+
+CORS
+
+OpenAI Node.js SDK
+
+dotenv
+
+💡 Usage
+
+Run backend locally or deploy to Render.
+
+Open frontend in browser.
+
+Enter a question about life.
+
+Receive an AI-generated response.
+
+🔒 Security Notes
+
+Do not expose your OpenAI API key in frontend code.
+
+Always use environment variables (.env) for secrets.
+
+Keep .env in .gitignore.
+
+📄 License
+
+MIT License © LifeLens
+
+Do you want me to do that next?
